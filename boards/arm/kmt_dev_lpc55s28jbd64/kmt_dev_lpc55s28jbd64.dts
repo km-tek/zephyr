@@ -1,0 +1,91 @@
+/*
+ * Copyright (c) 2021 Kien Minh Co.,Ltd
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <nxp/nxp_lpc55S2x.dtsi>
+#include "kmt_dev_lpc55s28jbd64_common.dtsi"
+
+/ {
+	model = "kmt lpc55S28jbd64 board";
+	compatible = "nxp,lpc55xxx", "nxp,lpc";
+
+	aliases{
+		sw0 = &btn_isp;
+		sw1 = &btn_usr;
+	};
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,console = &flexcomm0;
+		zephyr,shell-uart = &flexcomm0;
+		zephyr,entropy = &rng;
+	};
+
+	gpio_keys {
+		compatible = "gpio-keys";
+		btn_isp: button_0 {
+			label = "ISP button";
+			gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+		};
+		btn_usr: button_1 {
+			label = "USR button";
+			gpios = <&gpio0 31 GPIO_ACTIVE_LOW>;
+		};
+	};
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&green_led {
+	status = "okay";
+};
+
+&blue_led {
+	status = "okay";
+};
+
+&flexcomm0 {
+	status = "okay";
+};
+
+&flexcomm4 {
+	status = "okay";
+};
+
+&hs_lspi {
+	status = "okay";
+	dmas = <&dma0 2>, <&dma0 3>;
+	dma-names = "rx", "tx";
+};
+
+&wwdt0 {
+	status = "okay";
+};
+
+&adc0 {
+	status = "okay";
+};
+
+&dma0 {
+	/*
+	 * The total number of dma channels available is defined by
+	 * FSL_FEATURE_DMA_NUMBER_OF_CHANNELS in the SoC features file.
+	 * Since memory from the heap pool is allocated based on the number
+	 * of DMA channels, set this property to as many channels is needed
+	 * for the platform. Adjust HEAP_MEM_POOL_SIZE in case you need more
+	 * memory.
+	 */
+	dma-channels = <20>;
+	status = "okay";
+};

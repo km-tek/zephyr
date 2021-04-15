@@ -1,0 +1,47 @@
+/*
+ * Copyright (c) 2020 Lemonbeat GmbH
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	aliases{
+		led0 = &green_led;
+		led1 = &blue_led;
+		spi-8 = &hs_lspi;
+		usart-0 = &flexcomm0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		green_led: led_1 {
+			gpios = <&gpio0 8 0>;
+			label = "User LD2";
+			status = "disabled";
+		};
+		blue_led: led_2 {
+			gpios = <&gpio0 27 0>;
+			label = "User LD3";
+			status = "disabled";
+		};
+	};
+};
+
+&flexcomm0 {
+	compatible = "nxp,lpc-usart";
+	current-speed = <115200>;
+};
+
+arduino_i2c: &flexcomm1 {
+	compatible = "nxp,lpc-i2c";
+	clock-frequency = <I2C_BITRATE_STANDARD>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	mma8652fc@1d {
+		compatible = "nxp,fxos8700","nxp,mma8652fc";
+		reg = <0x1d>;
+		label = "MMA8652FC";
+		int1-gpios = <&gpio1 19 GPIO_ACTIVE_LOW>;
+	};
+};

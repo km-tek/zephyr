@@ -1,0 +1,9 @@
+# kmt dev lpc55S28jbd64 board
+
+# Copyright (c) 2021 Kien Minh Co.,Ltd
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_KMT_DEV_LPC55S28JBD64
+	bool "BOARD_KMT_DEV_LPC55S28JBD64"
+	depends on SOC_SERIES_LPC55XXX
+	select SOC_PART_NUMBER_LPC55S28JBD64
